@@ -75,6 +75,11 @@ jobs:
       needs: deployStaging
       environment: production
       steps:       
+          - name: Azure Login
+            uses: Azure/login@v1
+            with:
+              # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
           - name: Swap staging to production
             run: |
               az webapp deployment slot swap --name GitHubWorkShop250526822 --resource-group GitHubWorkShop250526822 --slot staging --target-slot production
